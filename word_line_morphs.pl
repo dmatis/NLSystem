@@ -1,3 +1,6 @@
+% Will return true if the list of morphemes of the word entered
+% matches a list with the original word in it. Will output the new list of
+% morphemes
 
 :- consult('wordnet_prolog_2007/wn_s.pl').
 :- consult('wordnet_prolog_2007/wn_g.pl').

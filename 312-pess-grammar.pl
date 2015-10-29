@@ -190,6 +190,9 @@ rule(Rules) -->
         sentence(Head),                      % S (only)
         { build_rules([], Head, Rules) }.    % That's a fact! No body.
 
+
+
+%%%%%%%%%%%%%%%%%%% grammar for parsing words %%%%%%%%%%%%%%%%%%%
 % verb_be can be 'is' or empty 
 verb_be --> [is]; [].
 
