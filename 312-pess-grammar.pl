@@ -190,6 +190,27 @@ rule(Rules) -->
         sentence(Head),                      % S (only)
         { build_rules([], Head, Rules) }.    % That's a fact! No body.
 
+verb_be --> [is].
+verb_be --> [].
+
+article --> [a].
+article --> [an].
+article --> [].
+
+pos_tag(n) --> [noun].
+pos_tag(v) --> [verb].
+pos_tag(adj) --> [adjective].
+pos_tag(adv) --> [adverb].
+
+word(WordinTerm) --> [Word], verb_be, article, pos_tag(POS), {word_rel_term(WordinTerm, Word, POS)}.
+
+% word_rel_term(WordinTerm, Word, POS) is true iff WordinTerm is Word(POS). 
+% word_rel_term(WordinTerm, Word, POS):- WordinTerm = Word(POS).
+
+
+
+% word_rel_term(WordinTerm, Word, POS) :- POS=[noun],(n(thing), Word, )
+
 
 % 1 or more sentences joined by ands.
 sentence_conj_plus(Attrs) -->
