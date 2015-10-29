@@ -388,8 +388,8 @@ process(['rule:'|L]) :-     % Found a rule.
         rule(R,L,[]),       % Parse the rule.
         bug(R),             % Print it for debugging.
         assert_rules(R), !. % Assert it (them, potentially) in the DB.
-process(['words:'|L]) :-     % Found a rule.
-        word(R,L,[]),       % Parse the rule.
+process(['words:'|L]) :-    % Found a word/words to be added to the database.
+        words(R,L,[]),      % Parse the word(s).
         bug(R),             % Print it for debugging.
         assert_rules(R), !. % Assert it (them, potentially) in the DB.
 process(L) :-

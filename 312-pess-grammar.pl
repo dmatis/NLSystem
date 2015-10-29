@@ -190,27 +190,30 @@ rule(Rules) -->
         sentence(Head),                      % S (only)
         { build_rules([], Head, Rules) }.    % That's a fact! No body.
 
-verb_be --> [is].
-verb_be --> [].
+% verb_be can be 'is' or empty 
+verb_be --> [is]; [].
 
-article --> [a].
-article --> [an].
-article --> [].
+% article can be 'a', 'an' or empty
+article --> [a]; [an]; [].
 
-pos_tag(n) --> [noun].
-pos_tag(v) --> [verb].
-pos_tag(adj) --> [adjective].
-pos_tag(adv) --> [adverb].
+% 4 categories: noun, verb, adjective and adverb
+category(n) --> [noun].
+category(v) --> [verb].
+category(adj) --> [adjective].
+category(adv) --> [adverb].
 
-word(WordinTerm) --> [Word], verb_be, article, pos_tag(POS), {word_rel_term(WordinTerm, Word, POS)}.
+% conj_and can be 'and' or empty
+conj_and --> [and]; [].
 
-% word_rel_term(WordinTerm, Word, POS) is true iff WordinTerm is Word(POS). 
-% word_rel_term(WordinTerm, Word, POS):- WordinTerm = Word(POS).
+words([Word]) --> word(Word).                                   % words contain only one word to be added to the database
+words([Word|Words]) --> word(Word),conj_and, words(Words).      % there is a list of words to be processed, they can be separated by 'and'
 
+word(WordinTerm) --> [Word], verb_be, article, category(Label), % the sentence pattern is [Word] verb_be article category
+                    {word_rel_term(WordinTerm, Word, Label)}.   % to build the new fact to be added to database based on category
 
-
-% word_rel_term(WordinTerm, Word, POS) :- POS=[noun],(n(thing), Word, )
-
+% functor is making n, v, adj or adv a function that takes in one argument.
+% arg/3 is a built-in function that makes Word the argument for Label function.
+word_rel_term(WordinTerm, Word, Label):- functor(WordinTerm, Label, 1), arg(1, WordinTerm, Word).
 
 % 1 or more sentences joined by ands.
 sentence_conj_plus(Attrs) -->
