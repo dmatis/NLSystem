@@ -46,7 +46,11 @@
 %% Interpreter loop                                             %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%% TODO!! %%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%% Shell %%%%%%%%%%%%%%%%%%%%%%%%%%
+%This provides the greeting and command options to 
+%a user when they first load the program and enter
+%'go.'
 
 go:-
 	greeting,
