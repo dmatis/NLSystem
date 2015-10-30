@@ -173,25 +173,6 @@ big_test_term(X) :- X =
                                       [attr(is_how, very, [])])])]), 
        attr(is_a, worm, [attr(is_like, brown, [])])])].
 
-
-
-%%%%%%%%%%%%%%%%%%% grammar for parsing rules %%%%%%%%%%%%%%%%%%%
-
-% Rules can be..
-rule(Rules) -->                              % if S+ then S+
-        [if], sentence_conj_plus(Body),      % conjunctive bodies OK
-        [then], sentence_conj_plus(Head),    % conjunctive heads..
-        { build_rules(Body, Head, Rules) }.  % broken into separate rules
-rule(Rules) -->                              % S if S+
-        sentence(Head), [if],                
-        sentence_conj_plus(Body),
-        { build_rules(Body, Head, Rules) }.
-rule(Rules) -->
-        sentence(Head),                      % S (only)
-        { build_rules([], Head, Rules) }.    % That's a fact! No body.
-
-
-
 %%%%%%%%%%%%%%%%%%% grammar for parsing words %%%%%%%%%%%%%%%%%%%
 % verb_be can be 'is' or empty 
 verb_be --> [is]; [].
@@ -217,6 +198,21 @@ word(WordinTerm) --> [Word], verb_be, article, category(Label), % the sentence p
 % functor is making n, v, adj or adv a function that takes in one argument.
 % arg/3 is a built-in function that makes Word the argument for Label function.
 word_rel_term(WordinTerm, Word, Label):- functor(WordinTerm, Label, 1), arg(1, WordinTerm, Word).
+
+%%%%%%%%%%%%%%%%%%% grammar for parsing rules %%%%%%%%%%%%%%%%%%%
+
+% Rules can be..
+rule(Rules) -->                              % if S+ then S+
+        [if], sentence_conj_plus(Body),      % conjunctive bodies OK
+        [then], sentence_conj_plus(Head),    % conjunctive heads..
+        { build_rules(Body, Head, Rules) }.  % broken into separate rules
+rule(Rules) -->                              % S if S+
+        sentence(Head), [if],                
+        sentence_conj_plus(Body),
+        { build_rules(Body, Head, Rules) }.
+rule(Rules) -->
+        sentence(Head),                      % S (only)
+        { build_rules([], Head, Rules) }.    % That's a fact! No body.
 
 % 1 or more sentences joined by ands.
 sentence_conj_plus(Attrs) -->
