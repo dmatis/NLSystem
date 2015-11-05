@@ -48,11 +48,12 @@
 
 
 %%%%%%%%%%%%%%%%%%% Shell %%%%%%%%%%%%%%%%%%%%%%%%%%
-%This provides the greeting and command options to 
-%a user when they first load the program and enter
-%'go.'
+%This provides the greeting and command options to %
+%a user when they first load the program and enter %
+%'main.'                                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-go:-
+main:-
 	greeting,
 	repeat,
 	write('>'),
@@ -68,13 +69,16 @@ greeting:-
 
 do(load):-load_kb, !.
 
-do(consult):- solve, !.
+do(help):-help, !.
 
-do(quit).
+do(solve):- solve, !.
+
+do(quit):- !.
 
 do(X):-
 	write(X),
-	write('invalid command entered.'),nl,
+	write(' '),
+	write(' is an invalid command.'),nl,
 	fail.
 
 load_kb:-
@@ -84,12 +88,15 @@ load_kb:-
 	load_rules(F).
 
 help:-
+	nl,
 	write('Legal commands for this system are: '),nl,
 	write('help.'),nl,
 	write('load.'),nl,
 	write('solve.'),nl,
-	write('quit.').nl,
+	write('quit.'),nl,
+	nl,
 	greeting.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Solving, asking, and proving                                 %%
