@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Author: Steve Wolfman
-%% Date: 2005/02/02
-%% Collaborators: based partially on work by David Lowe
+%% Authors: Darren Matis, Abrar Musa and Jun Goh.
+%% Date: 2015/11/15
+%% Collaborators: based upon work by David Lowe and Steve Wolfman
 %% Sources: based partially on code from Amzi!, Inc.
 %%
 %% Description:
@@ -62,9 +62,10 @@ main:-
 	X == quit.
 
 greeting:-
+	nl,
 	write('This is the CPSC312 Prolog Expert System Shell.'),nl,
 	write('Based on Amzi\'s native Prolog shell.'),nl,
-	write('Type help. load. solve. or quit. at the prompt'),nl,
+	write('Type help. load. solve. list. or quit. at the prompt'),nl,
 	write('Note the period after each command!'),nl.
 
 do(load):-load_kb, !.
@@ -74,6 +75,8 @@ do(help):-help, !.
 do(solve):- solve, !.
 
 do(quit):- !.
+
+do(list):- list, !.
 
 do(X):-
 	write(X),
@@ -95,6 +98,14 @@ help:-
 	write('solve.'),nl,
 	write('quit.'),nl,
 	nl,
+	greeting.
+
+% {Work In Progress}
+list:-
+	nl,
+%	write('Currently loaded rules are: '),nl,
+%	bug(Y), known(Y),
+%	nl,
 	greeting.
 
 
@@ -428,6 +439,17 @@ bug(X) :- write(X).
 %% NOTE: to improve modularity, read_sentence/1 is defined in
 %% 312pess-grammar.pl (which allows that file to run independently of
 %% 312pess.pl).
+
+
+
+
+
+
+
+
+
+
+
 
 
 
