@@ -171,6 +171,8 @@ solve :-
 solve :-
         write('No answer found.'),nl.
 
+solve(X):-
+
 
 %%%%%%%%%%%%%% prove and related %%%%%%%%%%%%%%%%%%
 
