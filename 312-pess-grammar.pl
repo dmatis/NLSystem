@@ -178,7 +178,7 @@ big_test_term(X) :- X =
 verb_be --> [is]; [].
 
 % article can be 'a', 'an' or empty
-article --> [a]; [an]; [].
+article --> [a]; [an]; [the]; [].
 
 % 4 categories: noun, verb, adjective and adverb
 category(n) --> [noun].
@@ -198,6 +198,34 @@ word(WordinTerm) --> [Word], verb_be, article, category(Label), % the sentence p
 % functor is making n, v, adj or adv a function that takes in one argument.
 % arg/3 is a built-in function that makes Word the argument for Label function.
 word_rel_term(WordinTerm, Word, Label):- functor(WordinTerm, Label, 1), arg(1, WordinTerm, Word).
+
+%%%%%%%%%%%%%%%%%%% grammar for parsing goals %%%%%%%%%%%%%%%%%%%
+goal_pronouns --> [it]; [that].
+goal_exclamations --> [heck]; [].
+goal_articles --> [the].
+goal_verbs --> [will];[can];[does];[].
+
+
+goal(Goals) -->
+        parse_goal(Head),
+        write('GOAL!!!!!'), nl,
+        { build_rules([], Head, Goals) }.
+
+
+parse_goal(Attrs, Goal, []) :-
+ Goal = [verbis, goal_pronoun|remaining], 
+ vis([verbis], []), 
+ goal_pronouns([goal_pronoun], []), 
+ sentence(Attrs, [it, is|remaining], []).
+
+% what the heck is that
+parse_goal(Attrs) -->
+ [what], goal_articles, exclamation, verb_be, goal_pronouns,
+ { sentence(Attrs, [it, is, what], []) }.
+parse_goal(Attrs) -->
+        goal_verbs, sentence(Attrs).
+
+parse_goal(Attrs) --> sentence(Attrs).
 
 %%%%%%%%%%%%%%%%%%% grammar for parsing rules %%%%%%%%%%%%%%%%%%%
 

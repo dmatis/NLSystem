@@ -420,9 +420,32 @@ process(['words:'|L]) :-    % Found a word/words to be added to the database.
         words(R,L,[]),      % Parse the word(s).
         bug(R),             % Print it for debugging.
         assert_rules(R), !. % Assert it (them, potentially) in the DB.
+
+
+process(['goal:'|L]) :-
+        write('Parsing goal'), nl,
+        setting_goal(L), !.
+
+
 process(L) :-
         write('trans error on:'),nl,
         write(L),nl.
+
+setting_goal(L) :-
+        clear_db,
+        write('DB CLEARED'), nl,
+        goal(R,L,[]),
+        write('GOAL SET'), nl,
+        R = rule(attr(T, Q, Re), _L),
+        write('GETTING RULE'), nl,
+        write('Understoods goal: '), 
+        plain_gloss([attr(T, Q, Re)], Text), 
+        write_sentence(Text), nl,
+        assert_goal_rules(T, Q, Re),
+        write('YES'), nl.
+
+assert_goal_rules(T, what, Re) :- assertz(rule(top_goal(X), [attr(T, X, Re)])).
+assert_goal_rules(T, Q, Re) :- assertz(rule(top_goal(Q), [attr(T, Q, Re)])).
 
 % Assert a list of rules.
 assert_rules([]).
@@ -432,9 +455,10 @@ assert_rules([R|Rs]) :- assertz(R), assert_rules(Rs).
 % Also establishes the default top goal (to find out what "it" is).
 clear_db :-
         abolish(rule,2),
-        dynamic(rule/2),
+        dynamic(rule/2).
         %% For now, top_goal is set manually.
-        assertz(rule(top_goal(X), [attr(is_a, X, [])])).
+
+        %% assertz(rule(top_goal(X), [attr(is_a, X, [])])).
 
 % Gloss a rule for debugging output.
 bug(X) :- write('Understood: '),
