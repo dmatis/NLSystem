@@ -118,16 +118,16 @@ read_word([Ch|Chs]) :- get_char(Ch), read_word(Chs).
 % relate to English sentences.
 %
 % A rule is of the form rule(Head, Body), where Head is a single goal
-% (instance of attr/3) while Body is a (possibly empty) list of
+% (instance of attr/3) while Body is a (Labelsibly empty) list of
 % goals. A rule "rule(Head, Body)" means something like "if Body then
 % Head". Goals, AKA attributes, have the form attr(Type, Value,
 % SubAttributes). Type is one of: 
 % - is_a (indicating a noun/is-a relationship) 
-% - has_a (indicating a noun/containment/possession relationship) 
+% - has_a (indicating a noun/containment/Labelsession relationship) 
 % - is_like (indicating an adjective/descriptive relationship) 
 % - is_how (indicating an adverb/descriptive relationship) 
 %
-% Value may be anything. SubAttributes is a (possibly empty) list of
+% Value may be anything. SubAttributes is a (Labelsibly empty) list of
 % "attached" attributes -- that is, further attributes describing this
 % one.
 %
@@ -173,7 +173,31 @@ big_test_term(X) :- X =
                                       [attr(is_how, very, [])])])]), 
        attr(is_a, worm, [attr(is_like, brown, [])])])].
 
+%%%%%%%%%%%%%%%%%%% grammar for parsing goals %%%%%%%%%%%%%%%%%%%
+% question_word
+qn_word --> [what].
+
+% pronounce_w
+pronounce_w --> [it].
+
+% types:
+type(does) --> [does].
+type(is)   --> [is].
+
+goal(Goal) --> parse_goal(Goal).
+
+parse_goal(Goal) --> qn_word, type(Qn), pronounce_w,
+                    {build_goal(Goal,Qn)}.
+                    %what does it have
+%parse_goal(Goal) --> qn_word, type(Qn), pronounce_w, [have]
+%                    {build_goal(Goal, Qn)}.
+
+%build_goal(rule(top_goal(X), [attr(is_a, X, [])])).
+
+build_goal(Goal,Qn):- functor(Goal,rule,2),arg(1,Goal,top_goal(X)),arg(2,Goal,[attr(is_a, X, [])])).
+
 %%%%%%%%%%%%%%%%%%% grammar for parsing words %%%%%%%%%%%%%%%%%%%
+
 % verb_be can be 'is' or empty 
 verb_be --> [is]; [].
 
@@ -199,6 +223,7 @@ word(WordinTerm) --> [Word], verb_be, article, category(Label), % the sentence p
 % arg/3 is a built-in function that makes Word the argument for Label function.
 word_rel_term(WordinTerm, Word, Label):- functor(WordinTerm, Label, 1), arg(1, WordinTerm, Word).
 
+
 %%%%%%%%%%%%%%%%%%% grammar for parsing rules %%%%%%%%%%%%%%%%%%%
 
 % Rules can be..
@@ -222,6 +247,7 @@ sentence_conj_plus(Attrs) -->
                                          % Would diff lists be better here?
 sentence_conj_plus(Attrs) -->
         sentence(Attrs).
+
 
 % Sentences that start with 'it' or other vacuous subjects.
 sentence(Attrs) -->
@@ -374,7 +400,7 @@ adj([attr(is_like,X,[])]) --> [X], { adj(X) }.
 adj([attr(is_like,Name,[])]) --> lit(adj, Name).
 
 
-% "Doing" verbs (as opposed to "has" and "is".
+% "Doing" verbs (as opLabeled to "has" and "is".
 % Either provided below or literals.
 vdoes([attr(does,X,[])]) --> [X], { v(X) }.
 vdoes([attr(does,Name,[])]) --> lit(v, Name).
@@ -417,7 +443,6 @@ build_rules(_, [], []).
 build_rules(Body, [Head|Heads], 
               [rule(Head, Body)|Rules]) :-
         build_rules(Body, Heads, Rules).
-
 
 % build_up_advs(AdvList, NestedAdv) is true if NestedAdv is
 % the (inside out) nested version of the separately listed
@@ -493,7 +518,7 @@ top_gloss(attr(does, Verb, Attrs)) -->
         [it], 
         { split_attrs(Attrs, is_how, Advs, Others) },
         gloss_all_and(Advs),             % It adverbs 
-        gloss_poss_pl(Verb),             % verb
+        gloss_Labels_pl(Verb),             % verb
         gloss_all_and(Others).           % nouns 
                                          % (e.g., it slowly eats insects)
 top_gloss(attr(has_a, What, Attrs)) -->
@@ -501,7 +526,7 @@ top_gloss(attr(has_a, What, Attrs)) -->
         { split_attrs(Attrs, is_like, Adjs, Others1) },
         { split_attrs(Others1, is_a, Nouns, Others) },
         gloss_all(Adjs),                 % It has adjs 
-        gloss_poss_pl(What),             % noun 
+        gloss_Labels_pl(What),             % noun 
         gloss_that_are_and(Nouns),       % that are noun 
         gloss_all_and(Others).           % E.g., it has two feet that
                                          % are sharp claws.
@@ -509,7 +534,7 @@ top_gloss(attr(is_a, What, Attrs)) -->
         [it], [is],
         { split_attrs(Attrs, is_like, Adjs, Others) },
         gloss_all(Adjs),                 % It is adjs
-        gloss_poss_pl(What),             % noun
+        gloss_Labels_pl(What),             % noun
         gloss_all_and(Others).           % E.g., it is a small beetle.
 top_gloss(attr(is_like, What, Attrs)) -->
         [it], [is],
@@ -527,17 +552,17 @@ top_gloss(attr(is_like, What, Attrs)) -->
 % Of course, number (e.g., singular vs. plural) is not accounted for!
 gloss(attr(is_a, What, Attrs)) -->   % Nouns.
         gloss_all(Attrs),            
-        gloss_poss_pl(What).
+        gloss_Labels_pl(What).
 gloss(attr(does, Verb, Attrs)) -->    % Verbs (not is/has).
         [that], { split_attrs(Attrs, is_how, Advs, Others) },
         gloss_all_and(Advs),          % Since this isn't top-level, it's
-        gloss_poss_pl(Verb),          % a sub-clause; so, it starts w/that
+        gloss_Labels_pl(Verb),          % a sub-clause; so, it starts w/that
         gloss_all_and(Others).        % E.g., "it is a bird that slowly
                                       % eats insects and other vermin"
 gloss(attr(has_a, What, Attrs)) -->   % Having verbs (has/contains)
         [that], [has],                % As above, this is a subordinate
         gloss_all_and(Attrs),         % clause: "that has many toes"
-        gloss_poss_pl(What).
+        gloss_Labels_pl(What).
 gloss(attr(is_like, What, Attrs)) --> % Adjectives.
         gloss_all(Attrs),
         [What].
@@ -547,9 +572,9 @@ gloss(attr(is_how, How, Attrs)) -->   % Adverbs; note that attached
                                       % the "most important" adverb is 
                                       % last.
 
-% Gloss as possibly a plural.
+% Gloss as Labelsibly a plural.
 % A cop-out for not handling number.  Currently unused.
-gloss_poss_pl(Atom) --> 
+gloss_Labels_pl(Atom) --> 
 %       { atom_concat(Atom, '(s)', AtomPl) },  % skipping plurals for now.
         { AtomPl = Atom },
         [AtomPl].
