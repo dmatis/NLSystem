@@ -1,0 +1,120 @@
+rule:
+if   it tolerates cold weather and
+	 its size is big and 
+	 it sensitivity is high 
+then its type is working dog.
+
+rule:
+if    it tolerates cold weather and
+      it tolerates hot weather and
+      its "n:prey drive" is high
+then  its type is hound dog.
+
+rule:
+if    it is "adj:novice-owner-friendly" and
+	  it "v:can live" in apartments
+then  its type is companion dog
+
+rule:
+if    its type is hound dog and
+      its "n:drooling potential" is high
+then  it is a "n:afghan hound".
+
+rule:
+if    its type is hound dog and 
+      its "n:energy level" is high and
+      it is affectionate 
+then  it is a "n:norwegian elkhound".
+
+rule:
+if    its type is hound dog and
+      it adapts well to apartment living and
+      its sensitivity is average and
+      its intelligence is average
+then  it is a "n:scottish deerhound".
+
+rule:
+if	 its type is working dog and
+	 its "n:exercise needs" is high and
+	 its "n:drooling potential" is high
+then it is a "n:alaskan malamute".
+
+rule:
+if   its type is working dog and
+	 its "n:exercise needs" is high and
+	 it is affectionate 
+then it is a "n:tibetan mastiff".
+
+rule:
+if   its type is working dog and
+     it tolerates being alone and
+     its "n:tendency to bark" is high and
+     its playfulness is low
+then it is a "n:chow chow".
+
+rule: 
+if   its type is working dog and
+     its "n:exercise needs" is high and
+     it is affectionate and
+     it has thick fur and
+     its intelligence is high
+then it is a "n:komondor".
+
+rule:
+if   its type is working dog and
+     its "n:amount of shedding" is high and
+     its playfulness is high and
+     its "n:energy level" is high
+then it is a "n:portuguese water dog".
+
+rule:
+if   its type is working dog and
+	 it is affectionate and
+	 its "n:energy level" is high and
+     its intensity is high 
+then it is a "n:standard schanauzer".
+
+rule:
+if   its type is companion dog and 
+     it is affectionate and
+     it tolerates hot weather and 
+     its size is small
+then it is a "n:bichon frise".
+
+rule:
+if   its type is companion dog and
+     it is affectionate and
+     its sensitivity is low and
+     its "n:tendency to bark" is high and
+     its intelligence is low
+then it is a "n:bulldog".
+
+rule:
+if   its type is companion dog and
+     its "n:drooling potential" is high and
+     its intelligence is low and
+     its "n:prey drive" is high
+then it is a "n:chihuahua".
+
+rule:
+if   its type is companion dog and
+     it is "adj:kid-friendly" and
+     its intensity is high and
+     its playfulness is high and
+     it is affectionate
+then it is a "n:pug".
+
+rule:
+if   its type is companion dog and
+     it is affectionate and 
+     its "n:tendency to bark" is high and
+     its "n:amount of shedding" is high
+then it is a "n:french bulldog".
+
+rule:
+if   its type is companion dog and
+     it is affectionate and
+     its "n:amount of shedding" is high and
+     it is "adj:dog-friendly" and
+     it is "adj:friendly toward" strangers
+then it is a "n:coton de tulear".
