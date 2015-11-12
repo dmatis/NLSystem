@@ -65,7 +65,7 @@ greeting:-
 	nl,
 	write('This is the CPSC312 Prolog Expert System Shell.'),nl,
 	write('Based on Amzi\'s native Prolog shell.'),nl,
-	write('Type help. load. solve. list. or quit. at the prompt'),nl,
+	write('Type help. load. solve. goal. or quit. at the prompt'),nl,
 	write('Note the period after each command!'),nl.
 
 do(load):-load_kb, !.
@@ -78,15 +78,21 @@ do(quit):- !.
 
 do(list):- list, !.
 
+do(goal):- goal, !.
+
+do(assert):- assertf, !.
+
 do(X):-
+	nl,
 	write(X),
 	write(' '),
-	write(' is an invalid command.'),nl,
+	write('is an invalid command.'),nl,
 	fail.
 
 load_kb:-
+	nl,
 	write('Enter file name in single quotes, followed by a period'),nl,
-	write('(e.g. \'bird.kb\'.): '),nl,
+	write('e.g. \'bird.kb\'. '),nl,
 	read(F),
 	load_rules(F).
 
@@ -96,17 +102,41 @@ help:-
 	write('help.'),nl,
 	write('load.'),nl,
 	write('solve.'),nl,
+	write('goal.'),nl,
+	write('assert.'),nl,
 	write('quit.'),nl,
 	nl,
 	greeting.
 
-% {Work In Progress}
-list:-
+
+%{Work In Progress}
+goal:-
 	nl,
+	write('Enter the new goal, followed by a period.'),nl,
+	write('e.g. \'what is it\'. '),nl,
+	read(F),
+	process(F),
+	nl.
+
+
+% {Work In Progress}
+assertf:-
+	nl,
+	write('Enter a new rule or fact to add to database'),nl,
+	write('e.g. \'if it has a long bill then its family is toucan\' .'),nl,
+	read(F),
+	assertz(F, [attr(is_a, F, [])]),
+	write('successfully asserted'),
+	nl.
+
+
+% {Work In Progress}
+%list:-
+%	nl,
 %	write('Currently loaded rules are: '),nl,
 %	bug(Y), known(Y),
 %	nl,
-	greeting.
+%	greeting.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
