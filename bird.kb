@@ -172,6 +172,37 @@ if   its family is swallow and
      it is dark 
 then it is a "n:purple martin".
 
+rule:
+if   its order is waterfowl
+then it has a bill.
+
+rule:
+if   its order is waterfowl
+then it is a swan.
+
+rule:
+if   it is a "n:swan" and 
+     it is "adj:pink"
+then it is a "adj:pink" "n:swan".
+
+rule:
+if   its family is flycatcher and 
+     its throat is "adj:pink" 
+then it is a "n:pink swan".
+
+rule:
+if   it is "n:pink swan"
+then it is a "n:WOOO".
+
+rule:
+if   it "v:eat" "n:duck"
+then it is a "n:snake".
+
+rule:
+if   it is a "n:swan" and
+     it is "adj:big"
+then it is a "n:apple".
+
 words: thing is a noun.
 
 words: lift is verb.
@@ -186,4 +217,9 @@ words:
 words:
      last is an adjective
      word is a noun.
+
+goal:
+     does it eat insects.
+
+
 

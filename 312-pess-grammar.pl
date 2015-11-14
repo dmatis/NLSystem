@@ -196,15 +196,28 @@ parse_goal(Goal) --> qn_word, [does], pronounce_w, [have],
                     {build_goal_have(Goal)}.
 parse_goal(Goal) --> [is], pronounce_w, article_g, [Adj_G], [Noun_G],
                     {build_goal_like(Goal,Adj_G,Noun_G)}.
+parse_goal(Goal) --> qn_word, [does], pronounce_w, [Verb_G],
+                    {build_goal_does(Goal,Verb_G)}.
+parse_goal(Goal) --> [does], pronounce_w, [Verb_G], [Noun_G],
+                    {build_goal_vp(Goal, Verb_G, Noun_G)}.
 
-build_goal_like(rule(top_goal(_X),
+build_goal_vp(rule(top_goal(yes),
+    [attr(does, Verb_G, [attr(is_a, Noun_G, [])])]
+    ), Verb_G, Noun_G).
+
+
+build_goal_like(rule(top_goal(yes),
     [attr(is_a, Noun_G, [attr(is_like, Adj_G, [])])]
-    ),Adj_G,Noun_G).
+    ), Adj_G, Noun_G).
+
 %is it a brown swan
 %attr(is_a, swan, [attr(is_like, brown, [])])),
 build_goal(rule(top_goal(X), 
     [attr(is_a, X, [])])).
+
 build_goal_have(rule(top_goal(X), [attr(has_a, X, [])])).
+
+build_goal_does(rule(top_goal(_X),[attr(does,Verb_G,[])]), Verb_G).
 
 %build_goal(Goal,Qn):- functor(Goal,rule,2),arg(1,Goal,top_goal(X)),arg(2,Goal,[attr(is_a, X, [])])).
 
