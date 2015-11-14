@@ -329,6 +329,7 @@ prepend_attr(attr(Type, Val, _),
 load_rules(F) :-
         clear_db,
         see(F),
+        %assertz(rule(top_goal(X), [attr(is_a, X, [])])),
         load_rules,
         write('rules loaded'),nl,
         seen, !.
@@ -337,7 +338,7 @@ load_rules(F) :-
 load_rules :-
         read_sentence(L),   % Read a rule.
         %bug(L), 
-        assertz(rule(top_goal(X), [attr(is_a, X, [])])),
+        %assertz(rule(top_goal(X), [attr(is_a, X, [])])),
         process(L),         % Insert the rule into the DB.
         load_rules.         % Tail recursive loop.
 load_rules :- !.            % Cut avoids backtracking (and re-processing!)

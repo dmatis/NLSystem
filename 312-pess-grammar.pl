@@ -180,21 +180,33 @@ qn_word --> [what].
 % pronounce_w
 pronounce_w --> [it].
 
+% article
+article_g --> [a]; [an].
+
 % types:
 type(does) --> [does].
 type(is)   --> [is].
 
 goal(Goal) --> parse_goal(Goal).
 
-parse_goal(Goal) --> qn_word, type(Qn), pronounce_w,
-                    {build_goal(Goal,Qn)}.
+parse_goal(Goal) --> qn_word, [is], pronounce_w,
+                    {build_goal(Goal)}.
                     %what does it have
-%parse_goal(Goal) --> qn_word, type(Qn), pronounce_w, [have]
-%                    {build_goal(Goal, Qn)}.
+parse_goal(Goal) --> qn_word, [does], pronounce_w, [have],
+                    {build_goal_have(Goal)}.
+parse_goal(Goal) --> [is], pronounce_w, article_g, [Adj_G], [Noun_G],
+                    {build_goal_like(Goal,Adj_G,Noun_G)}.
 
-%build_goal(rule(top_goal(X), [attr(is_a, X, [])])).
+build_goal_like(rule(top_goal(_X),
+    [attr(is_a, Noun_G, [attr(is_like, Adj_G, [])])]
+    ),Adj_G,Noun_G).
+%is it a brown swan
+%attr(is_a, swan, [attr(is_like, brown, [])])),
+build_goal(rule(top_goal(X), 
+    [attr(is_a, X, [])])).
+build_goal_have(rule(top_goal(X), [attr(has_a, X, [])])).
 
-build_goal(Goal,Qn):- functor(Goal,rule,2),arg(1,Goal,top_goal(X)),arg(2,Goal,[attr(is_a, X, [])])).
+%build_goal(Goal,Qn):- functor(Goal,rule,2),arg(1,Goal,top_goal(X)),arg(2,Goal,[attr(is_a, X, [])])).
 
 %%%%%%%%%%%%%%%%%%% grammar for parsing words %%%%%%%%%%%%%%%%%%%
 
