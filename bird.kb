@@ -195,8 +195,12 @@ if   it is "n:pink swan"
 then it is a "n:WOOO".
 
 rule:
-if   it "v:eat" "n:duck"
+if   it "v:eats" "n:insects"
 then it is a "n:snake".
+
+rule:
+if   its family is flycatcher
+then it "v:eat" "n:insects".
 
 rule:
 if   it is a "n:swan" and
@@ -219,7 +223,7 @@ words:
      word is a noun.
 
 goal:
-     does it eat insects.
+     what does it eat.
 
 
 

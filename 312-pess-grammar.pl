@@ -217,7 +217,9 @@ build_goal(rule(top_goal(X),
 
 build_goal_have(rule(top_goal(X), [attr(has_a, X, [])])).
 
-build_goal_does(rule(top_goal(_X),[attr(does,Verb_G,[])]), Verb_G).
+build_goal_does(rule(top_goal(X),
+    [attr(does,Verb_G,[attr(is_a, X, [])])]
+    ), Verb_G).
 
 %build_goal(Goal,Qn):- functor(Goal,rule,2),arg(1,Goal,top_goal(X)),arg(2,Goal,[attr(is_a, X, [])])).
 
