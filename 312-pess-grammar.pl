@@ -707,6 +707,14 @@ n(pintail).
 n(bird).
 n(throat).
 n(insects).
+n(sensitivity).
+n(size).
+n(weather).
+n(type).
+n(intelligence).
+n(playfulness).
+n(fur).
+n(intensity).
 
 % Adverbs.
 :- dynamic(adv/1).  % Ensure that the predicate can be modified dynamically
@@ -719,6 +727,7 @@ adv(ponderously).
 adv(powerfully).
 adv(agilely).
 adv(mottled).
+adv(well).
 
 % Adjectives.
 :- dynamic(adj/1).  % Ensure that the predicate can be modified dynamically
@@ -756,6 +765,14 @@ adj(brown).
 adj('v-shaped').
 adj(rusty).
 adj(square).
+adj(high).
+adj(cold).
+adj(hot).
+adj(big).
+adj(affectionate).
+adj(average).
+adj(low).
+adj(thick).
 
 % Doing verbs (i.e., not is/are or has/have/contains/contain).
 :- dynamic(v/1).  % Ensure that the predicate can be modified dynamically
@@ -769,3 +786,4 @@ v(scavenges).
 v(quacks).
 v(summers).
 v(winters).
+v(tolerates).
