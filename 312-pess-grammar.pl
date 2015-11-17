@@ -198,6 +198,7 @@ word(WordinTerm) --> [Word], verb_be, article, category(Label), % the sentence p
 % functor is making n, v, adj or adv a function that takes in one argument.
 % arg/3 is a built-in function that makes Word the argument for Label function.
 word_rel_term(WordinTerm, Word, Label):- functor(WordinTerm, Label, 1), arg(1, WordinTerm, Word).
+
 %%%%%%%%%%%%%%%%%%% grammar for parsing goals %%%%%%%%%%%%%%%%%%%
 % question_word
 qn_word --> [what].
@@ -208,21 +209,20 @@ pronounce_w --> [it].
 % article
 article_g --> [a]; [an].
 
-% types:
-type(does) --> [does].
-type(is)   --> [is].
-
 goalparse(Goal) --> parse_goal(Goal).
 
 parse_goal(Goal) --> qn_word, [is], pronounce_w,
                     {build_goal(Goal)}.
-                    %what does it have
+
 parse_goal(Goal) --> qn_word, [does], pronounce_w, [have],
                     {build_goal_have(Goal)}.
+
 parse_goal(Goal) --> [is], pronounce_w, article_g, [Adj_G], [Noun_G],
                     {build_goal_like(Goal,Adj_G,Noun_G)}.
+
 parse_goal(Goal) --> qn_word, [does], pronounce_w, [Verb_G],
                     {build_goal_does(Goal,Verb_G)}.
+
 parse_goal(Goal) --> [does], pronounce_w, [Verb_G], [Noun_G],
                     {build_goal_vp(Goal, Verb_G, Noun_G)}.
 
@@ -245,8 +245,6 @@ build_goal_have(rule(top_goal(X), [attr(has_a, X, [])])).
 build_goal_does(rule(top_goal(X),
     [attr(does,Verb_G,[attr(is_a, X, [])])]
     ), Verb_G).
-
-%build_goal(Goal,Qn):- functor(Goal,rule,2),arg(1,Goal,top_goal(X)),arg(2,Goal,[attr(is_a, X, [])])).
 
 %%%%%%%%%%%%%%%%%%% grammar for parsing rules %%%%%%%%%%%%%%%%%%%
 
@@ -715,6 +713,8 @@ n(intelligence).
 n(playfulness).
 n(fur).
 n(intensity).
+n(cheeks).
+n(goose).
 
 % Adverbs.
 :- dynamic(adv/1).  % Ensure that the predicate can be modified dynamically
@@ -787,3 +787,4 @@ v(quacks).
 v(summers).
 v(winters).
 v(tolerates).
+v(summers).

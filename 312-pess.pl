@@ -443,17 +443,18 @@ load_rules :- !.            % Cut avoids backtracking (and re-processing!)
 process([]) :- !.           % Ignore empty rules.
 process(['rule:'|L]) :-     % Found a rule.
         rule(R,L,[]),       % Parse the rule.
-        bug(R),             % Print it for debugging.
+        %bug(R),             % Print it for debugging.
         assert_rules(R), !. % Assert it (them, potentially) in the DB.
 process(['words:'|L]) :-    % Found a word/words to be added to the database.
         words(R,L,[]),      % Parse the word(s).
-        bug(R),             % Print it for debugging.
+        %bug(R),             % Print it for debugging.
         assert_rules(R), !. % Assert it (them, potentially) in the DB.
 process(['goal:'|L]) :-
-        retract(rule(top_goal(X), [attr(is_a, X, [])])),
+        retractall(rule(top_goal(_X), _Y)),
+        write('retract'),nl,
         goalparse(R,L,[]),
         goalbug(L),
-        assertz(R),!.
+        assertz(R), !.
 process(L) :-
         write('trans error on:'),nl,
         write(L),nl.
@@ -466,9 +467,9 @@ assert_rules([R|Rs]) :- assertz(R), assert_rules(Rs).
 % Also establishes the default top goal (to find out what "it" is).
 clear_db :-
         abolish(rule,2),
-        dynamic(rule/2),
+        dynamic(rule/2).
         %% For now, top_goal is set manually.
-        assertz(rule(top_goal(X), [attr(is_a, X, [])])).
+        %assertz(rule(top_goal(X), [attr(is_a, X, [])])).
 
 % Gloss a rule for debugging output.
 bug(X) :- write('Understood: '),

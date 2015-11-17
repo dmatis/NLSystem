@@ -1,4 +1,3 @@
-goal: does it eat insects.
 rule:
 if   its nostrils are external and tubular and 
      it lives "n:at sea" and 
@@ -172,6 +171,25 @@ rule:
 if   its family is swallow and 
      it is dark 
 then it is a "n:purple martin".
+
+rule:
+if   its family is vulture and 
+     its flight has a flat profile 
+then it eat insects.
+
+rule:
+if   it is a "n:swan" and 
+     it is "adj:pink"
+then it is a "adj:pink" "n:swan".
+
+rule:
+if   its family is flycatcher and 
+     its throat is "adj:pink" 
+then it is a "adj:pink" "n:swan".
+
+rule:
+if   its order is waterfowl
+then it has a "n:water bottle".
 
 words: thing is a noun.
 
