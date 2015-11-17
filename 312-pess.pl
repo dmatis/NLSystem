@@ -446,7 +446,7 @@ process(['words:'|L]) :-    % Found a word/words to be added to the database.
         assert_rules(R), !. % Assert it (them, potentially) in the DB.
 process(['goal:'|L]) :-
         goal(R,L,[]),
-        bug(R),
+        goalbug(L),
         assertz(R),!.
 process(L) :-
         write('trans error on:'),nl,
@@ -469,6 +469,10 @@ bug(X) :- write('Understood: '),
         plain_gloss(X, Text),
         write_sentence(Text), nl.
 bug(X) :- write(X).
+goalbug(X) :- write('Understood goal: '),
+        plain_gloss(X, Text),
+        write_sentence(X), nl.
+goalbug(X) :- write(X), nl.
 
 %% NOTE: to improve modularity, read_sentence/1 is defined in
 %% 312pess-grammar.pl (which allows that file to run independently of
