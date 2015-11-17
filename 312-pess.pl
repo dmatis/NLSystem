@@ -115,7 +115,7 @@ goal:-
 	write('Enter the new goal, followed by a period.'),nl,
 	write('e.g. \'what is it\'. '),nl,
 	read(F),
-	process(F),
+	process(['goal:'|F]),
 	nl.
 
 
