@@ -761,6 +761,7 @@ adj(square).
 :- dynamic(v/1).  % Ensure that the predicate can be modified dynamically
 
 v(eats).
+v(eat).
 v(flies).
 v(lives).
 v(feeds).

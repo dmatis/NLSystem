@@ -115,7 +115,8 @@ goal:-
 	write('Enter the new goal, followed by a period.'),nl,
 	write('e.g. \'what is it\'. '),nl,
 	read(F),
-	process(['goal:'|F]),
+  split_string(F,' ','',X),
+	process(['\'goal:\' '|X]),
 	nl.
 
 
@@ -469,6 +470,7 @@ bug(X) :- write('Understood: '),
         plain_gloss(X, Text),
         write_sentence(Text), nl.
 bug(X) :- write(X).
+
 goalbug(X) :- write('Understood goal: '),
         plain_gloss(X, Text),
         write_sentence(X), nl.
