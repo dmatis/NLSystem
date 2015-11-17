@@ -56,6 +56,7 @@
 main:-
 	greeting,
 	repeat,
+  assertz(rule(top_goal(X), [attr(is_a, X, [])])),
 	write('>'),
 	read(X),
 	do(X),
@@ -115,10 +116,13 @@ goal:-
 	write('Enter the new goal, followed by a period.'),nl,
 	write('e.g. \'what is it\'. '),nl,
 	read(F),
-  split_string(F,' ','',X),
-	process(['\'goal:\' '|X]),
-	nl.
+  atomic_list_concat(X,' ',F),
+	process(['goal:'|X]).
 
+default_goal:-
+  write("Setting default goal as: what is it"),
+  nl,
+  process(['goal:',what,is,it]).
 
 % {Work In Progress}
 assertf:-
@@ -126,7 +130,7 @@ assertf:-
 	write('Enter a new rule or fact to add to database'),nl,
 	write('e.g. \'if it has a long bill then its family is toucan\' .'),nl,
 	read(F),
-	assertz(F, [attr(is_a, F, [])]),
+	atomic_list_concat(X,' ',F),
 	write('successfully asserted'),
 	nl.
 
@@ -446,7 +450,8 @@ process(['words:'|L]) :-    % Found a word/words to be added to the database.
         bug(R),             % Print it for debugging.
         assert_rules(R), !. % Assert it (them, potentially) in the DB.
 process(['goal:'|L]) :-
-        goal(R,L,[]),
+        retract(rule(top_goal(X), [attr(is_a, X, [])])),
+        goalparse(R,L,[]),
         goalbug(L),
         assertz(R),!.
 process(L) :-

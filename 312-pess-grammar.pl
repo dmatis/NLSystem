@@ -212,7 +212,7 @@ article_g --> [a]; [an].
 type(does) --> [does].
 type(is)   --> [is].
 
-goal(Goal) --> parse_goal(Goal).
+goalparse(Goal) --> parse_goal(Goal).
 
 parse_goal(Goal) --> qn_word, [is], pronounce_w,
                     {build_goal(Goal)}.
