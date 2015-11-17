@@ -209,42 +209,42 @@ pronounce_w --> [it].
 % article
 article_g --> [a]; [an].
 
-goalparse(Goal) --> parse_goal(Goal).
+goalparse(Goal) --> parse_goal(Goal).                                   % parsing goal questions.
 
-parse_goal(Goal) --> qn_word, [is], pronounce_w,
+parse_goal(Goal) --> qn_word, [is], pronounce_w,                        % build goal for question 'what is it'
+                    {build_goal(Goal)}.
+parse_goal(Goal) --> qn_word, [the], [heck], [is], ['THAT'],            % works the same as goal 'what is it'
                     {build_goal(Goal)}.
 
-parse_goal(Goal) --> qn_word, [does], pronounce_w, [have],
-                    {build_goal_have(Goal)}.
+parse_goal(Goal) --> qn_word, [does], pronounce_w, [have],              % build goal for question 'what does it have'
+                    {build_goal_have(Goal)}.    
 
-parse_goal(Goal) --> [is], pronounce_w, article_g, [Adj_G], [Noun_G],
+parse_goal(Goal) --> [is], pronounce_w, article_g, [Adj_G], [Noun_G],   % build goal for question 'is it a pink swan'
                     {build_goal_like(Goal,Adj_G,Noun_G)}.
 
-parse_goal(Goal) --> qn_word, [does], pronounce_w, [Verb_G],
+parse_goal(Goal) --> qn_word, [does], pronounce_w, [Verb_G],            % build goal for question 'what does it eat'
                     {build_goal_does(Goal,Verb_G)}.
 
-parse_goal(Goal) --> [does], pronounce_w, [Verb_G], [Noun_G],
+parse_goal(Goal) --> [does], pronounce_w, [Verb_G], [Noun_G],           % build goal for question 'does it eat insects'
                     {build_goal_vp(Goal, Verb_G, Noun_G)}.
 
-build_goal_vp(rule(top_goal(yes),
-    [attr(does, Verb_G, [attr(is_a, Noun_G, [])])]
-    ), Verb_G, Noun_G).
 
+build_goal(rule(top_goal(X),                                            % make rule for question 'what is it'
+    [attr(is_a, X, [])])).
 
-build_goal_like(rule(top_goal(yes),
+build_goal_have(rule(top_goal(X), [attr(has_a, X, [])])).               % make rule for question 'what does it have'
+
+build_goal_like(rule(top_goal(yes),                                     % make rule for question 'is it a pink swan'
     [attr(is_a, Noun_G, [attr(is_like, Adj_G, [])])]
     ), Adj_G, Noun_G).
 
-%is it a brown swan
-%attr(is_a, swan, [attr(is_like, brown, [])])),
-build_goal(rule(top_goal(X), 
-    [attr(is_a, X, [])])).
-
-build_goal_have(rule(top_goal(X), [attr(has_a, X, [])])).
-
-build_goal_does(rule(top_goal(X),
+build_goal_does(rule(top_goal(X),                                       % make rule for question 'what does it eat'
     [attr(does,Verb_G,[attr(is_a, X, [])])]
     ), Verb_G).
+
+build_goal_vp(rule(top_goal(yes),                                       % make rule for question 'does it eat insects'
+    [attr(does, Verb_G, [attr(is_a, Noun_G, [])])]
+    ), Verb_G, Noun_G).
 
 %%%%%%%%%%%%%%%%%%% grammar for parsing rules %%%%%%%%%%%%%%%%%%%
 

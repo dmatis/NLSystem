@@ -56,7 +56,7 @@
 main:-
 	greeting,
 	repeat,
-  assertz(rule(top_goal(X), [attr(is_a, X, [])])),
+  assertz(rule(top_goal(X), [attr(is_a, X, [])])),        % assert a goal 'what is it' when we call main
 	write('>'),
 	read(X),
 	do(X),
@@ -116,8 +116,8 @@ goal:-
 	write('Enter the new goal, followed by a period.'),nl,
 	write('e.g. \'what is it\'. '),nl,
 	read(F),
-  atomic_list_concat(X,' ',F),
-	process(['goal:'|X]).
+  atomic_list_concat(X,' ',F),                            % make an atomic list of the goal sentence
+	process(['goal:'|X]).                                   % process goal to assert it 
 
 default_goal:-
   write("Setting default goal as: what is it"),
@@ -449,12 +449,11 @@ process(['words:'|L]) :-    % Found a word/words to be added to the database.
         words(R,L,[]),      % Parse the word(s).
         %bug(R),             % Print it for debugging.
         assert_rules(R), !. % Assert it (them, potentially) in the DB.
-process(['goal:'|L]) :-
-        retractall(rule(top_goal(_X), _Y)),
-        write('retract'),nl,
-        goalparse(R,L,[]),
-        goalbug(L),
-        assertz(R), !.
+process(['goal:'|L]) :-                       % Found a goal to be added to the database.
+        retractall(rule(top_goal(_X), _Y)),   % Retract all previously added goal. 
+        goalparse(R,L,[]),                    % Parse the goal.
+        goalbug(L),                           % Print the goal
+        assertz(R), !.                        % Assert the goal
 process(L) :-
         write('trans error on:'),nl,
         write(L),nl.
