@@ -444,6 +444,10 @@ process(['words:'|L]) :-    % Found a word/words to be added to the database.
         words(R,L,[]),      % Parse the word(s).
         bug(R),             % Print it for debugging.
         assert_rules(R), !. % Assert it (them, potentially) in the DB.
+process(['goal:'|L]) :-
+        goal(R,L,[]),
+        bug(R),
+        assertz(R),!.
 process(L) :-
         write('trans error on:'),nl,
         write(L),nl.
