@@ -132,6 +132,7 @@ assertf:-
 	write('e.g. \'if it has a long bill then its family is toucan\' .'),nl,
 	read(F),
 	atomic_list_concat(X,' ',F),
+  process(['rule:'|X]),
 	write('successfully asserted'),
 	nl.
 
