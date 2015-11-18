@@ -642,17 +642,11 @@ get_stems(X) :- morph_atoms_bag(X, Y), flatten(Y, Z),
                 check_word(Z), !.
 
 check_word([]).
-check_word([H|T]) :-  check_in_wordnet(H), check_word(T).
-
-
-check_in_wordnet(X) :- not(s(_, _, X, wtype, _, _)).
+check_word([H|T]) :-  check_in_wordnet(H), !, check_word(T).
 
 check_in_wordnet(X) :- 
-            s(ID, W_num, X, wtype, snum, tagc), 
-            insert_words(X, wtype), !. %%  fail ; true.
-             
-
-insert_words(X, wtype) :- insert_into_db(X, wtype). 
+            s(ID, W_num, X, Wtype, Snum, Tagc), 
+            insert_into_db(X, Wtype). 
 
 %% insert word into local DB.
 
