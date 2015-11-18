@@ -406,8 +406,9 @@ det_opt --> [an].
 % Nouns become is_a attributes.
 n([]) --> [it].
 n( [attr(is_a,X,[])] ) --> [X], { n(X) }.
+n( [attr(is_a,X,[])] ) --> [X], get_stems(X). % Cannot find word, stem and add
 n( [attr(is_a,Name,[])] ) --> lit(n, Name). % Any literal tagged as 'n'
-n( [attr(is_a,X,[])] ) --> [X], { get_stems(X) }. % Cannot find word, stem and add
+
 
 % Adverbs are either those provided below or literals.
 adv([attr(is_how,X,[])]) --> [X], { adv(X) }.
