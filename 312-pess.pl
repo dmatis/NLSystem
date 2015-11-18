@@ -41,7 +41,8 @@
 
 % Import the grammar.
 :- consult('312-pess-grammar.pl').
-
+:- consult('ProNToMorph/pronto_morph_engine.pl').
+:- consult('wordnet_prolog_2007/wn_s.pl').
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Interpreter loop                                             %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

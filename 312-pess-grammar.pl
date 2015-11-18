@@ -407,10 +407,10 @@ det_opt --> [a].
 det_opt --> [an].
 
 % Nouns become is_a attributes.
-n([]) --> [it].                           % "it" is ignored
-n([attr(is_a,X,[])]) --> [X], { n(X) }.   % Anything listed below.
-n([attr(is_a,Name,[])]) --> lit(n, Name). % Any literal tagged as 'n'
-
+n([]) --> [it].
+n( [attr(is_a,X,[])] ) --> [X], { n(X) }.
+n( [attr(is_a,Name,[])] ) --> lit(n, Name). % Any literal tagged as 'n'
+n( [attr(is_a,X,[])] ) --> [X], { get_stems(X) }. % Cannot find word, stem and add
 
 % Adverbs are either those provided below or literals.
 adv([attr(is_how,X,[])]) --> [X], { adv(X) }.
@@ -639,8 +639,30 @@ split_attrs([attr(NonTarget, Val, Subs)|Rest],
 write_sentence([]).
 write_sentence([Word|Words]) :- write(Word), tab(1), write_sentence(Words).
 
+%% get_stems(X) gets the stems of a word
+get_stems(X) :- morph_atoms_bag(X, Y), flatten(Y, Z), 
+                check_word(Z), !.
+
+check_word([]).
+check_word([H|T]) :-  check_in_wordnet(H), check_word(T).
 
 
+check_in_wordnet(X) :- not(s(_, _, X, wtype, _, _)).
+
+check_in_wordnet(X) :- 
+            s(ID, W_num, X, wtype, snum, tagc), 
+            insert_words(X, wtype), !. %%  fail ; true.
+             
+
+insert_words(X, wtype) :- insert_into_db(X, wtype). 
+
+%% insert word into local DB.
+
+insert_into_db(X, n) :- assert(n(X)).
+insert_into_db(X, v) :- assert(v(X)).
+insert_into_db(X, r) :- assert(adv(X)).
+insert_into_db(X, s) :- assert(adj(X)).
+insert_into_db(X, a) :- assert(adj(X)).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Vocabulary for the PESS parser                               %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
