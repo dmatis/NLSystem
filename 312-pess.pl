@@ -67,7 +67,7 @@ greeting:-
 	nl,
 	write('This is the CPSC312 Prolog Expert System Shell.'),nl,
 	write('Based on Amzi\'s native Prolog shell.'),nl,
-	write('Type help. load. solve. goal. or quit. at the prompt'),nl,
+	write('Type help. load. solve. goal. assert. or quit. at the prompt'),nl,
 	write('Note the period after each command!'),nl.
 
 do(load):-load_kb, !.
@@ -77,8 +77,6 @@ do(help):-help, !.
 do(solve):- solve, !.
 
 do(quit):- !.
-
-do(list):- list, !.
 
 do(goal):- goal, !.
 
@@ -111,21 +109,21 @@ help:-
 	greeting.
 
 
-%{Work In Progress}
+
 goal:-
 	nl,
 	write('Enter the new goal, followed by a period.'),nl,
 	write('e.g. \'what is it\'. '),nl,
 	read(F),
   atomic_list_concat(X,' ',F),                            % make an atomic list of the goal sentence
-	process(['goal:'|X]).                                   % process goal to assert it 
+	process(['goal:'|X]).                                   % process goal to assert it
 
 default_goal:-
   write("Setting default goal as: what is it"),
   nl,
   process(['goal:',what,is,it]).
 
-% {Work In Progress}
+
 assertf:-
 	nl,
 	write('Enter a new rule or fact to add to database'),nl,
@@ -135,15 +133,6 @@ assertf:-
   process(['rule:'|X]),
 	write('successfully asserted'),
 	nl.
-
-
-% {Work In Progress}
-%list:-
-%	nl,
-%	write('Currently loaded rules are: '),nl,
-%	bug(Y), known(Y),
-%	nl,
-%	greeting.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -452,7 +441,7 @@ process(['words:'|L]) :-    % Found a word/words to be added to the database.
         %bug(R),             % Print it for debugging.
         assert_rules(R), !. % Assert it (them, potentially) in the DB.
 process(['goal:'|L]) :-                       % Found a goal to be added to the database.
-        retractall(rule(top_goal(_X), _Y)),   % Retract all previously added goal. 
+        retractall(rule(top_goal(_X), _Y)),   % Retract all previously added goal.
         goalparse(R,L,[]),                    % Parse the goal.
         goalbug(L),                           % Print the goal
         assertz(R), !.                        % Assert the goal
