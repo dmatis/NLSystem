@@ -403,11 +403,25 @@ det_opt --> [the].
 det_opt --> [a].
 det_opt --> [an].
 
+% types of 
+ss_type(n) --> [n].
+ss_type(v) --> [v].
+ss_type(adj) --> [s].
+ss_type(adj) --> [s].
+ss_type(adv) --> [r].
+
 % Nouns become is_a attributes.
-n([]) --> [it].
-n( [attr(is_a,X,[])] ) --> [X], { n(X) }.
-n( [attr(is_a,X,[])] ) --> [X], get_stems(X). % Cannot find word, stem and add
-n( [attr(is_a,Name,[])] ) --> lit(n, Name). % Any literal tagged as 'n'
+n([]) --> [it].                           % "it" is ignored
+n([attr(is_a,X,[])]) --> [X], { n(X) }.   % Anything listed below.
+n([attr(is_a,X,[])]) --> [X], {not(n(X)),to_assert(X)}. 
+%n([attr(is_a,X,[])]) --> [X], {(not(n(X), !,word_rel(Attr, X, n),to_assert(Attr))}.
+n([attr(is_a,Name,[])]) --> lit(n, Name). % Any literal tagged as 'n'
+
+%look_up(Attr,X,):-s(_a,_b,X,Type,_sense,_rate),ss_type(Type),word_rel_term()
+%look_up(Attr,X),
+
+to_assert(Word):-word_rel(Attr, Word, n),write('123'),assertz(Attr).
+word_rel(Attr, Word, Label):- functor(Attr, Label, 1), arg(1, Attr, Word).
 
 
 % Adverbs are either those provided below or literals.
