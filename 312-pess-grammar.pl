@@ -406,23 +406,27 @@ det_opt --> [an].
 % Nouns become is_a attributes.
 n([]) --> [it].
 n( [attr(is_a,X,[])] ) --> [X], { n(X) }.
-n( [attr(is_a,X,[])] ) --> [X], {not(n(X)),get_stems(X)}. % Cannot find word, stem and add
+n( [attr(is_a,X,[])] ) --> [X], { get_stems(X) }. % Cannot find word, stem and add
 n( [attr(is_a,Name,[])] ) --> lit(n, Name). % Any literal tagged as 'n'
 
 
 % Adverbs are either those provided below or literals.
 adv([attr(is_how,X,[])]) --> [X], { adv(X) }.
+adv([attr(is_how,X,[])]) --> [X], {get_stems(X) }. % Cannot find word, stem and add
 adv([attr(is_how,Name,[])]) --> lit(adv, Name).
 
 % Adjectives are either those provided below or literals.
 adj([attr(is_like,X,[])]) --> [X], { adj(X) }.
+adj([attr(is_like,X,[])]) --> [X], { get_stems(X) }. % Cannot find word, stem and add
 adj([attr(is_like,Name,[])]) --> lit(adj, Name).
 
 
 % "Doing" verbs (as opposed to "has" and "is".
 % Either provided below or literals.
 vdoes([attr(does,X,[])]) --> [X], { v(X) }.
+vdoes([attr(does,X,[])]) --> [X], { get_stems(X) }. % Cannot find word, stem and add
 vdoes([attr(does,Name,[])]) --> lit(v, Name).
+
 
 % "Having" verbs are "has" or "have" and "contain" or "contains".
 % The semi-colon is disjunction (just syntactic sugar
@@ -638,26 +642,26 @@ write_sentence([]).
 write_sentence([Word|Words]) :- write(Word), tab(1), write_sentence(Words).
 
 %% get_stems(X) gets the stems of a word
-get_stems(X) :- morph_atoms_bag(X, Y), flatten(Y, Z), 
+get_stems(X) :- morph_atoms_bag(X, Y), flatten(Y, Z),              % stem word and look for all the stems on word net.
                 check_word(Z), !.
 
 check_word([]).
-check_word([H|T]) :-  check_in_wordnet(H), !, check_word(T).
+check_word([H|T]) :-  check_in_wordnet(H), !, check_word(T).        % check all the stem words on word net.
 
 
-check_in_wordnet(X) :- not( s(_, _, X, Wtype, _, _) ).
+check_in_wordnet(X) :- not( s(_, _, X, _Wtype, _, _) ).
 
 check_in_wordnet(X) :- 
-            s(ID, W_num, X, Wtype, Snum, Tagc), 
+            s(_ID, _W_num, X, Wtype, _Snum, _Tagc),                     % use word net s predicate to determine the type of the word.
             insert_into_db(X, Wtype). 
 
-%% insert word into local DB.
+%% insert word into local DB only once. If it already added, not adding
+insert_into_db(X, n) :- not(n(X)), !, assert(n(X)).    
+insert_into_db(X, v) :- not(v(X)), !, assert(v(X)).
+insert_into_db(X, r) :- not(adv(X)), !, assert(adv(X)).
+insert_into_db(X, s) :- not(adj(X)), !, assert(adj(X)).
+insert_into_db(X, a) :- not(adj(X)), !, assert(adj(X)).
 
-insert_into_db(X, n) :- assert(n(X)).
-insert_into_db(X, v) :- assert(v(X)).
-insert_into_db(X, r) :- assert(adv(X)).
-insert_into_db(X, s) :- assert(adj(X)).
-insert_into_db(X, a) :- assert(adj(X)).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Vocabulary for the PESS parser                               %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

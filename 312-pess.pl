@@ -434,11 +434,11 @@ load_rules :- !.            % Cut avoids backtracking (and re-processing!)
 process([]) :- !.           % Ignore empty rules.
 process(['rule:'|L]) :-     % Found a rule.
         rule(R,L,[]),       % Parse the rule.
-        %bug(R),             % Print it for debugging.
+        bug(R),             % Print it for debugging.
         assert_rules(R), !. % Assert it (them, potentially) in the DB.
 process(['words:'|L]) :-    % Found a word/words to be added to the database.
         words(R,L,[]),      % Parse the word(s).
-        %bug(R),             % Print it for debugging.
+        bug(R),             % Print it for debugging.
         assert_rules(R), !. % Assert it (them, potentially) in the DB.
 process(['goal:'|L]) :-                       % Found a goal to be added to the database.
         retractall(rule(top_goal(_X), _Y)),   % Retract all previously added goal.
@@ -469,7 +469,7 @@ bug(X) :- write(X).
 
 goalbug(X) :- write('Understood goal: '),
         plain_gloss(X, Text),
-        write_sentence(X), nl.
+        write_sentence(Text), nl.
 goalbug(X) :- write(X), nl.
 
 %% NOTE: to improve modularity, read_sentence/1 is defined in
