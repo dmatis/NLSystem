@@ -129,7 +129,7 @@ default_goal:-
 assertf:-
 	nl,
 	write('Enter a new rule or fact to add to database'),nl,
-	write('e.g. \'if it has a long bill then its family is toucan\' .'),nl,
+	write('e.g. \'if its bill is flat then its order is waterfowl\' .'),nl,
 	read(F),
 	atomic_list_concat(X,' ',F),
   process(['rule:'|X]),
