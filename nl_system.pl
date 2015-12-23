@@ -40,7 +40,7 @@
 :- op(900,xfx, \).
 
 % Import the grammar.
-:- consult('312-pess-grammar.pl').
+:- consult('grammar.pl').
 :- consult('ProNToMorph/pronto_morph_engine.pl').
 :- consult('wordnet_prolog_2007/wn_s.pl').
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -473,8 +473,8 @@ goalbug(X) :- write('Understood goal: '),
 goalbug(X) :- write(X), nl.
 
 %% NOTE: to improve modularity, read_sentence/1 is defined in
-%% 312pess-grammar.pl (which allows that file to run independently of
-%% 312pess.pl).
+%% grammar.pl (which allows that file to run independently of
+%% nl_system.pl).
 
 
 

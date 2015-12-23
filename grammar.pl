@@ -1,8 +1,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Author: Steve Wolfman
-%% Date: 2005/02/02
-%% Collaborators: based partially on work by David Lowe
-%% Sources: based partially on code from Amzi!, Inc. 
+%% Authors: Darren Matis, Abrar Musa and Jun Goh.
+%% Date: 2015/11/15
+%% Collaborators: based upon work by David Lowe and Steve Wolfman
+%% Sources: based partially on code from Amzi!, Inc.
 %%
 %% Description:
 %% This file contains the natural language machinery for the 312
