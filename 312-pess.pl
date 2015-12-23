@@ -5,7 +5,7 @@
 %% Sources: based partially on code from Amzi!, Inc.
 %%
 %% Description:
-%% 312 Prolog Expert System Shell, based on Amzi's "Native" shell.
+%% Prolog Expert System Shell, based on Amzi's "Native" shell.
 %% For use with natural-language-based expert system knowledge bases.
 
 
@@ -65,7 +65,7 @@ main:-
 
 greeting:-
 	nl,
-	write('This is the CPSC312 Prolog Expert System Shell.'),nl,
+	write('Welcome to the Prolog Expert System Shell.'),nl,
 	write('Based on Amzi\'s native Prolog shell.'),nl,
 	write('Type help. load. solve. goal. assert. or quit. at the prompt'),nl,
 	write('Note the period after each command!'),nl.
